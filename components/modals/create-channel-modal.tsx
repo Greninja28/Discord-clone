@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import qs from "query-string";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z
@@ -46,17 +47,17 @@ const formSchema = z.object({
 });
 
 const CreateChannelModal = () => {
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
   const params = useParams();
-
+  const { channelType } = data;
   const isModalOpen = isOpen && type === "createChannel";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     },
   });
 
@@ -82,6 +83,14 @@ const CreateChannelModal = () => {
     form.reset();
     onClose();
   };
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+    }
+  }, [channelType, form]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
