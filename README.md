@@ -1,4 +1,4 @@
-The website is live at the link: https://discord-clone-production-ba68.up.railway.app
+The website is live at the link: https://discord-clone-six-ruddy.vercel.app
 
 The application is a discord clone with the functionalities like
   1. Creation of server
@@ -17,7 +17,7 @@ This application is made using the TECH STACK:
   2. ShadCN UI library
   3. Next.JS 14
   4. Prisma
-  5. MySQL
+  5. MongoDB
   6. Tailwind CSS
 
 Fork the if you want to run this project in your machine and drop a star if you like the project!!!
