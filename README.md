@@ -20,4 +20,5 @@ This application is made using the TECH STACK:
   5. MongoDB
   6. Tailwind CSS
 
-Fork the if you want to run this project in your machine and drop a star if you like the project!!!
+Fork the if you want to run this project in your machine and drop a star if you like the project!!
+If you want to seee the demo then, please open it on brave or chrome incognito because of some privacy issue of google
