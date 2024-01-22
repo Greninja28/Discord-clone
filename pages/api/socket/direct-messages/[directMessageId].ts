@@ -1,5 +1,5 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { NextApiResponseServerIO } from "@/types";
 import { MemberRole } from "@prisma/client";
 import { NextApiRequest } from "next";
@@ -24,7 +24,7 @@ export default async function handler(
       return res.status(400).json({ error: "Conversation ID Missing" });
     }
 
-    const conversation = await db.conversation.findFirst({
+    const conversation = await prisma.conversation.findFirst({
       where: {
         id: conversationId as string,
         OR: [
@@ -51,7 +51,7 @@ export default async function handler(
       return res.status(404).json({ error: "Member Not Found" });
     }
 
-    let directMessage = await db.directMessage.findFirst({
+    let directMessage = await prisma.directMessage.findFirst({
       where: {
         id: directMessageId as string,
         conversationId: conversationId as string,
@@ -79,7 +79,7 @@ export default async function handler(
     }
 
     if (req.method === "DELETE") {
-      directMessage = await db.directMessage.update({
+      directMessage = await prisma.directMessage.update({
         where: { id: directMessageId as string },
         data: {
           fileUrl: null,
@@ -99,7 +99,7 @@ export default async function handler(
       if (!isMessageOwner) {
         return res.status(401).json({ error: "Unauthorized" });
       }
-      directMessage = await db.directMessage.update({
+      directMessage = await prisma.directMessage.update({
         where: { id: directMessageId as string },
         data: {
           content,

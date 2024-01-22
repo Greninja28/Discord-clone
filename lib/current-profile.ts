@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 
 export const currentProfile = async () => {
   const { userId } = auth();
@@ -7,7 +7,7 @@ export const currentProfile = async () => {
     return null;
   }
 
-  const profile = await db.profile.findUnique({
+  const profile = await prisma.profile.findUnique({
     where: {
       userId,
     },

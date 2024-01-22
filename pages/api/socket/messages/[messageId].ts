@@ -1,5 +1,5 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { NextApiResponseServerIO } from "@/types";
 import { MemberRole } from "@prisma/client";
 import { NextApiRequest } from "next";
@@ -27,7 +27,7 @@ export default async function handler(
       return res.status(400).json({ error: "Channel ID Missing" });
     }
 
-    const server = await db.server.findFirst({
+    const server = await prisma.server.findFirst({
       where: {
         id: serverId as string,
         members: {
@@ -45,7 +45,7 @@ export default async function handler(
       return res.status(404).json({ error: "Server Not Found" });
     }
 
-    const channel = await db.channel.findFirst({
+    const channel = await prisma.channel.findFirst({
       where: {
         id: channelId as string,
         serverId: serverId as string,
@@ -64,7 +64,7 @@ export default async function handler(
       return res.status(404).json({ error: "Member Not Found" });
     }
 
-    let message = await db.message.findFirst({
+    let message = await prisma.message.findFirst({
       where: {
         id: messageId as string,
         channelId: channelId as string,
@@ -92,7 +92,7 @@ export default async function handler(
     }
 
     if (req.method === "DELETE") {
-      message = await db.message.update({
+      message = await prisma.message.update({
         where: { id: messageId as string },
         data: {
           fileUrl: null,
@@ -112,7 +112,7 @@ export default async function handler(
       if (!isMessageOwner) {
         return res.status(401).json({ error: "Unauthorized" });
       }
-      message = await db.message.update({
+      message = await prisma.message.update({
         where: { id: messageId as string },
         data: {
           content,

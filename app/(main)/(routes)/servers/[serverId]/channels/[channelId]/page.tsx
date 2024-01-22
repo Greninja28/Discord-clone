@@ -3,7 +3,7 @@ import ChatInput from "@/components/chat/chat-input";
 import ChatMessages from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { redirectToSignIn } from "@clerk/nextjs";
 import { ChannelType } from "@prisma/client";
 import { redirect } from "next/navigation";
@@ -21,13 +21,13 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
     return redirectToSignIn();
   }
 
-  const channel = await db.channel.findUnique({
+  const channel = await prisma.channel.findUnique({
     where: {
       id: params.channelId,
     },
   });
 
-  const member = await db.member.findFirst({
+  const member = await prisma.member.findFirst({
     where: {
       serverId: params.serverId,
       profileId: profile.id,

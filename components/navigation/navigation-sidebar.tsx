@@ -1,5 +1,5 @@
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { redirect } from "next/navigation";
 import NavigationAction from "./navigation-action";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +14,7 @@ const NavigationSidebar = async () => {
     return redirect("/");
   }
 
-  const servers = await db.server.findMany({
+  const servers = await prisma.server.findMany({
     where: {
       members: {
         some: {

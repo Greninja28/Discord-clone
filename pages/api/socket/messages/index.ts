@@ -1,5 +1,5 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { NextApiResponseServerIO } from "@/types";
 import { NextApiRequest } from "next";
 
@@ -32,7 +32,7 @@ export default async function handler(
       return res.status(400).json({ error: "Content Missing" });
     }
 
-    const server = await db.server.findFirst({
+    const server = await prisma.server.findFirst({
       where: {
         id: serverId as string,
         members: {
@@ -50,7 +50,7 @@ export default async function handler(
       return res.status(404).json({ message: "Server not found" });
     }
 
-    const channel = await db.channel.findFirst({
+    const channel = await prisma.channel.findFirst({
       where: {
         id: channelId as string,
         serverId: serverId as string,
@@ -69,7 +69,7 @@ export default async function handler(
       return res.status(404).json({ message: "Member not found" });
     }
 
-    const message = await db.message.create({
+    const message = await prisma.message.create({
       data: {
         content,
         fileUrl,

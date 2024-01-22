@@ -1,5 +1,5 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { NextApiResponseServerIO } from "@/types";
 import { NextApiRequest } from "next";
 
@@ -28,7 +28,7 @@ export default async function handler(
       return res.status(400).json({ error: "Content Missing" });
     }
 
-    const conversation = await db.conversation.findFirst({
+    const conversation = await prisma.conversation.findFirst({
       where: {
         id: conversationId as string,
         OR: [
@@ -64,7 +64,7 @@ export default async function handler(
       return res.status(404).json({ message: "Member not found" });
     }
 
-    const message = await db.directMessage.create({
+    const message = await prisma.directMessage.create({
       data: {
         content,
         fileUrl,

@@ -1,5 +1,5 @@
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -16,7 +16,7 @@ export async function PATCH(
       return new NextResponse("Server ID missing", { status: 400 });
     }
 
-    const server = await db.server.update({
+    const server = await prisma.server.update({
       where: {
         id: params.serverId,
         profileId: {

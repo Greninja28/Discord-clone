@@ -1,5 +1,5 @@
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { DirectMessage } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 
     let messages: DirectMessage[] = [];
     if (cursor) {
-      messages = await db.directMessage.findMany({
+      messages = await prisma.directMessage.findMany({
         take: MESSAGE_BATCH,
         skip: 1,
         cursor: { id: cursor },
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
         },
       });
     } else {
-      messages = await db.directMessage.findMany({
+      messages = await prisma.directMessage.findMany({
         take: MESSAGE_BATCH,
         where: {
           conversationId,

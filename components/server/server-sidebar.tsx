@@ -1,5 +1,5 @@
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import prisma from "@/lib/db";
 import { ChannelType, MemberRole } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { ServerHeader } from "./server-header";
@@ -35,7 +35,7 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
     return redirect("/");
   }
 
-  const server = await db.server.findUnique({
+  const server = await prisma.server.findUnique({
     where: {
       id: serverId,
     },
